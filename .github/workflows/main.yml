@@ -25,12 +25,30 @@ jobs:
         run: |
           yarn
 
-      - name: Build Electron App
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          yarn build  # 假设你的构建命令是 npm run build
+          npm run build:linux
+
+      - name: Build MacOS
+        if: matrix.os == 'macos-latest'
+        run: npm run build:mac
+
+      - name: Build Windows
+        if: matrix.os == 'windows-latest'
+        run: npm run build:win
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3  # 更新为最新版本
         with:
           name: electron-app-${{ matrix.os }}  # 根据平台命名
-          path: path/to/your/build/output  # 修改为你的构建输出路径
+          files: |
+            dist/*.exe
+            dist/*.zip
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.snap
+            dist/*.deb
+            dist/*.rpm
+            dist/*.tar.gz
+            
