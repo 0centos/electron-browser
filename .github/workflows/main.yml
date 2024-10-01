@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v3  # 更新为最新版本
         with:
           name: electron-app-${{ matrix.os }}  # 根据平台命名
-          files: |
+          path: |
             dist/*.exe
             dist/*.zip
             dist/*.dmg
