@@ -1,0 +1,40 @@
+name: Deploy Electron App
+
+on:
+  push:
+    branches:
+      - main  # 或者你想要进行部署的分支
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}  # 使用矩阵来定义不同操作系统
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]  # 定义操作系统矩阵
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.11.0'  # 设置你需要的 Node.js 版本
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Build Electron App
+        run: |
+          npm run build  # 假设你的构建命令是 npm run build
+
+      - name: Package Electron App
+        run: |
+          npm run package  # 设置你打包的命令
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: electron-browser-${{ matrix.os }}  # 根据平台命名
+          path: path/to/your/build/output  # 修改为你的构建输出路径
