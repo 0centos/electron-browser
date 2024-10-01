@@ -25,12 +25,12 @@ jobs:
         run: |
           yarn
 
-      - name: Build and package Electron App
+      - name: Build Electron App
         run: |
-          npm run build 
+          yarn build  # 假设你的构建命令是 npm run build
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # 更新为最新版本
         with:
           name: electron-app-${{ matrix.os }}  # 根据平台命名
           path: path/to/your/build/output  # 修改为你的构建输出路径
