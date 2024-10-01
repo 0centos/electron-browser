@@ -51,4 +51,21 @@ jobs:
             dist/*.deb
             dist/*.rpm
             dist/*.tar.gz
-            
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.0  # 设置版本号，可以根据需要动态生成
+          release_name: Release v1.0.0  # 发布名称
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.0
+          files: dist/*  # 上传构建的所有文件
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
